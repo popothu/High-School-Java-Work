@@ -1,0 +1,95 @@
+public void addAll(int index, LinkedIntList2 list) {
+        ListNode current=front;
+        for (int i=1; i<index; i++) {
+            current=current.next;
+        }
+        ListNode temp=current.next;
+        current.next=list.nodeAt(0);
+        list.nodeAt(list.size()-1).next=temp;
+    }
+
+    public boolean containsAll(LinkedIntList2 list) {
+        for (ListNode current=list.nodeAt(0); current!=null; current=current.next) {
+            if (indexOf(current.data)==-1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof LinkedIntList2)) {
+            return false;
+        }
+        LinkedIntList2 list=(LinkedIntList2) o;
+        if (list.size()!=size()) {
+            return false;
+        }
+        ListNode current=front, current2=list.nodeAt(0);
+        while (current!=null && current2!=null) {
+            if (current.data != current2.data) {
+                return false;
+            }
+        }
+        return true;
+    }
+public int lastIndexOf(int n) {
+        int index=-1, count=0;
+        for (ListNode current=front; current!=null; current=current.next) {
+            if (current.data==n) {
+                index=count;
+            }
+            count++;
+        }
+        return index;
+    }
+public boolean remove(int n) {
+        ListNode current=front;
+        int index=0;
+        boolean removed=false;
+        while (current!=null) {
+            if (current.data==n) {
+                removeAtIndex(index);
+                return true;
+            }
+            current=current.next;
+            index++;
+        }
+        return false;
+    }
+
+    public void removeAll(LinkedIntList2 list) {
+        ListNode current=front;
+        int index=0;
+        while (current!=null) {
+            if (list.indexOf(current.data)!=-1) {
+                removeAtIndex(index);
+                index--;
+            }
+            current=current.next;
+            index++;
+        }
+    }
+
+    public void retainAll(LinkedIntList2 list) {
+        ListNode current=front;
+        int index=0;
+        while (current!=null) {
+            if (list.indexOf(current.data)==-1) {
+                removeAtIndex(index);
+                index--;
+            }
+            current=current.next;
+            index++;
+        }
+    }
+
+    public int[] toArray() {
+        int[] a=new int[size()];
+        int index=0;
+        for (ListNode current=front; current!=null; current=current.next) {
+            a[index]=current.data;
+            index++;
+        }
+        return a;
+    }
