@@ -1,0 +1,74 @@
+import java.util.*;
+public class ScrambleWords {
+    private static String scrambleWord(String w) {
+        if (w.indexOf("-")>=0) {
+            return scrambleWord(w.substring(0,w.indexOf("-"))) + "-"
+            + scrambleWord(w.substring(w.indexOf("-")+1));
+        } else {
+            if (w.length()>2) {
+                Random r=new Random();
+                String newWord=""+w.charAt(0), punctuation="";
+                if (isPunctuation(w.charAt(w.length()-1))) {
+                    punctuation+=w.charAt(w.length()-1);
+                    w=w.substring(0,w.length()-1);
+                }
+                List<Character> middle=new LinkedList<>();
+                for (int i=1; i<w.length()-1; i++) {
+                    middle.add(r.nextInt(middle.size()+1), w.charAt(i));
+                }
+                Iterator<Character> itr=middle.iterator();
+                while (itr.hasNext()) {
+                    newWord+=itr.next();
+                }
+                return newWord+w.charAt(w.length()-1)+punctuation;
+            } else {
+                return w;
+            }
+        }
+    }
+    private static String scrambleSentence(String s) {
+        String newSentence="";
+        Scanner sentence=new Scanner(s);
+        while (sentence.hasNext()) {
+            newSentence+=scrambleWord(sentence.next())+" ";
+        }
+        return newSentence;
+    }
+    public static String scrambleParagraph(String p) {
+        String newParagraph="";
+        Scanner paragraph=new Scanner(p);
+        String sentence="";
+        while (paragraph.hasNext()) {
+            String nextWord=paragraph.next();
+            sentence+=nextWord+" ";
+            if (isPunctuation(nextWord.charAt(nextWord.length()-1))) {
+                newParagraph+=scrambleSentence(sentence)+" ";
+                sentence="";
+            }
+        }
+        return newParagraph;
+    }
+    private static boolean isPunctuation(char c) {
+        switch (c) {
+            case '.': case ',': case '?': case '!':
+                return true;
+            default:
+                return false;
+        }
+    }
+}
+
+import java.io.*;
+import java.util.*;
+public class ScrambleParagraphClient {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner f= new Scanner(new File("example.txt"));
+        String paragraph="";
+        while (f.hasNext()) {
+            paragraph+=f.next()+" ";
+        }
+        System.out.println(paragraph);
+        System.out.println();
+        System.out.println(ScrambleWords.scrambleParagraph(paragraph));
+    }
+}
