@@ -1,0 +1,184 @@
+(12) Phone
+public static void shift(Stack <Integer> s, int n){
+	Queue<Integer> q = new LinkedList<Integer>();
+	int size = s.size();
+	while(!s.isEmpty()){
+		q.add(s.pop());
+	}
+	for(int i = 0; i< size - n; i++){
+	s.push(q.remove());
+}
+while(!s.isEmpty()){
+		q.add(s.pop());
+	}
+	for(int i = 0; i< n; i++){
+	q.push(q.remove());
+}
+while(!q.isEmpty(){
+	s.push(q.remove());
+}
+}
+
+(13) 
+//Exercise 13
+//post: removes elements that are smaller than the element(s) on top of it
+public static void expunge(Stack<Integer> s){
+        Stack<Integer> temp = new Stack<Integer>();
+        temp.push(s.pop());
+        while(!s.isEmpty()){
+            if(temp.peek() <= s.peek()){
+                temp.push(s.pop());
+            }
+            else{
+                s.pop();
+            }
+        }
+        while(!temp.isEmpty()){
+            s.push(temp.pop());
+        }
+    }
+
+
+
+(14)public static void reverseFirstK(int k, Queue<Integer> q) {
+    if (q.size()<k) {
+      throw new IllegalArgumentException();
+    }
+    Stack<Integer> s=new Stack<Integer>();
+    for (int i=1; i<=k; i++) { //put first k into stack
+      s.push(q.remove());
+    }
+    sToQ(s,q); //stack to queue (first k elements are now in reverse order)
+    for (int i=1; i<=q.size()-k; i++) { //move elements to original positions
+      q.add(q.remove());
+    }
+  }
+ 
+(15) public static boolean isSorted(Stack<Integer> s1) {
+    if (s1.isEmpty() || s1.size()==1) {
+      return true;
+    }
+    boolean sorted=true;
+    Stack<Integer> s2=new Stack<Integer>();
+    s2.push(s1.pop());
+    while (sorted && !s1.isEmpty()) { //pop one element at a time and compare to see if sorted
+      if (s2.peek()>s1.peek()) {
+        sorted=false;
+      }
+      s2.push(s1.pop());
+    }
+    while (!s2.isEmpty()) { //restore s1
+      s1.push(s2.pop());
+    }
+    return sorted;
+  }
+
+(16) 
+ public static void mirror(Stack<Integer> s){
+        Queue<Integer> temp = new LinkedList<Integer>();
+        int size = s.size();
+        stackToQueue(s, temp);
+        queueToStack(temp, s);
+        stackToQueue(s, temp);
+        for(int i = 0; i < size; i++){
+            int n = temp.remove();
+            s.push(n);
+            temp.add(n);
+        }
+        
+        while(!s.isEmpty()){
+            temp.add(s.pop());
+        }
+        queueToStack(temp, s);
+    }
+
+(17) 
+//Exercise 17
+    public static void compressDuplicates(Stack<Integer> s){
+        if(s.size() == 0){
+            return;
+        }else{
+            Queue<Integer> q = new LinkedList<Integer>();
+            while(!s.isEmpty()){ //making a count-value pair and putting it in a queue
+                int count = 0;
+                int value = s.peek();
+                while(!s.isEmpty() && s.peek() == value){ //incrementing count
+                    count++;
+                    s.pop();
+                }
+                q.add(count);
+                q.add(value);
+            }
+            int size = q.size() / 2;
+            while(!q.isEmpty()){ //putting everything back into the stack
+                for(int i = 1; i <= q.size() / 2 - 1; i++){
+                    q.add(q.remove());
+                    q.add(q.remove());
+                }
+                s.push(q.remove());
+                s.push(q.remove());
+            }
+        }
+    }
+(18)
+public static void mirrorhalves(Queue<Integer> q){
+	if(q == null || q.size() %2 ==1){
+	throw new IllegalArgumentException();
+}
+	Stack<Integer> s = new Stack<Integer>();
+	int size = q.size();
+
+for(int k = 0; k<2; k++){
+	for(int i = 0; i< size/2; i++){
+int n = q.remove();
+q.add(n);
+s.push(n);	
+}
+	while(!s.isEmpty(){
+	q.add(s.pop));
+}
+} 
+}
+
+(19) 
+public static int removeMin(Stack<Integer> s){
+   if(s.size()==0){throw new NoSuchElementException("no value");}
+   Queue<Integer> q = new LinkedList<Integer>();
+   int min = s.peek();
+   while(!s.isEmpty()){ // Find the min 
+       int n = s.pop();
+       q.add(n);
+       min = Math.min(min,n);
+   }
+
+   int size = q.size();
+   for(int i = 1;i <=size;i++){ // traverse the queue 
+       int n = q.remove();
+       if(n != min){  // add the values that are not min to the stack
+           s.push(n);
+       }
+   }
+   stackToQueue(s,q); // restore the stack in correct order
+   queuetoStack(q,s);
+   return min;
+}
+
+    (20) Exercise 20  public static void interleave(Queue<Integer> q) { 
+ int size = q.size();  
+if (size % 2 == 1) {  
+throw new IllegalArgumentException();  
+} 
+Stack<Integer> s = new Stack();  
+ for (int i = 0; i < size / 2; i++) {  
+s.push(q.remove());  
+ }       
+transfer(s,q);      
+for (int i = 0; i < size / 2; i++) {  
+q.add(q.remove());  
+}        
+for (int i = 0; i < size / 2; i++) {  
+s.push(q.remove());  
+ }  
+ for (int i = 0; i < size / 2; i++) {    
+ 	q.add(s.pop());  
+q.add(q.remove());  }  }  
