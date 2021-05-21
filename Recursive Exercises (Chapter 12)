@@ -1,0 +1,121 @@
+public static String starString(int n){//EX 1
+        
+        if(n==0){
+            return "*";
+        }else {
+            return starString(n-1)+starString(n-1);
+        }
+    }
+    public static void writeNums(int n){//EX 2
+        if(n==1){
+            System.out.print(n);
+        } else{
+            writeNums(n-1);
+            System.out.print(","+n);
+        }
+    }
+    public static void writesequence(int n){// EX 3 
+        if(n==1){
+            System.out.print("1");
+        }
+        if(n==2){
+            System.out.print("1");
+            System.out.print("1");
+        }
+        if(n>2){
+            System.out.print((n+1)/2);
+            writesequence(n-2);
+            System.out.print((n+1)/2);
+        }
+        
+        
+    }
+    public static void writesquares(int n){//EX 6
+        
+        if(n==2){
+            System.out.print(1+" ");
+            System.out.print(2*2+" ");
+            
+        }
+        if(n>2){
+       
+            System.out.print((n-1)*(n-1)+" ");
+            writesquares(n-2);
+            System.out.print(n*n+" ");
+        }
+        
+        
+    }
+    public static boolean reverse(String s1, String s2){//EX 12
+        if(s1.length()==0){
+            return true;
+        }
+        
+        else{
+            if(Character.toLowerCase(s1.charAt(0))!=Character.toLowerCase(s2.charAt(s2.length()-1))){
+                return false;
+            }
+            return reverse(s1.substring(1),s2.substring(0,s2.length()-1));
+        }
+        
+        
+        
+    }
+    public static int writeBinary(int n){//Ex 5
+       int binary = 0;
+        if (n == 0)
+          binary = 0;
+       else{
+          binary = n % 2 + 10 * (writeBinary(n / 2));
+       }
+       return binary;
+    }
+    public static void writeChars(int n){//Ex 7
+        String mid = "";
+        if(n%2==0){
+            mid = "**";
+        } else{
+            mid = "*";
+        }
+        if(n>2){    
+            if(n == 1){
+                        System.out.print(mid);
+                    } else{
+                        System.out.print("<");
+                        writeChars(n-2);
+                        System.out.print(">");
+                    }
+            }
+            else{
+            System.out.print(mid);
+            }
+    }
+        public static int digitMatch(int a, int b) {//EX 10
+        if (a < 0 || b < 0) {
+            throw new IllegalArgumentException();
+        } else if (a == 0 && b == 0) {
+            return 1;
+        } else {
+            int r = 0;
+            if (a % 10 == b % 10) {
+                r++;
+            }
+            if (a / 10 == 0 || b / 10 == 0) {
+                return r;
+            }
+            return r + digitMatch(a / 10, b / 10);
+        }    
+    }
+        public static int evenDigits(int n) { //EX 14
+        if (n == 0) {
+            return 0;
+        } else {
+            int num = n % 10;
+            if (num % 2 == 0) {
+                return num + evenDigits(n / 10) * 10;
+            } else {
+                return evenDigits(n / 10);
+            }
+        }
+    }
+
