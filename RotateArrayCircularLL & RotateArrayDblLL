@@ -1,0 +1,244 @@
+import java.util.*;
+class Maincall {
+  public static void main(String[] args) {
+    Scanner console=new Scanner(System.in);
+    System.out.print("How long is the list? ");
+    int length=console.nextInt();
+    CircularLL list=makeList(length);
+    System.out.println("The numbers are: "+list);
+    printMenu(console);
+    System.out.println();
+    String choice=console.next();
+    while (choice.equals("a")) {
+      System.out.print("What is the rotate value? ");
+      int rotateValue=console.nextInt();
+      list.rotate(rotateValue);
+      System.out.println("The list is now: "+list);
+      printMenu(console);
+      choice=console.next();
+    }
+    System.out.println("Goodbye!");
+  }
+
+  public static CircularLL makeList(int length) {
+    CircularLL list=new CircularLL();
+    for (int i=1; i<=length; i++) {
+      list.add(i);
+    }
+    return list;
+  }
+
+  public static void printMenu(Scanner console) {
+    System.out.print("(a) Care to rotate?\n(b) Quit\nEnter a choice: ");
+  }
+}
+
+CircularLL
+import java.util.*;
+
+// Class LinkedIntList can be used to store a list of integers.
+public class CircularLL {
+  private CircularNode head; // first value in the list
+  private CircularNode tail; // last value in the list
+
+  // post: constructs an empty list
+  public CircularLL() {
+    head = null;
+    tail = null;
+  }
+
+  public void rotate(int n) {
+    if (Math.abs(n)!=size()) {
+      int times=n;
+      if (n<0) {
+        times+=size();
+      }
+      for (int i=1; i<=times; i++) {
+        tail=tail.getNext();
+        head=head.getNext();
+      }
+    }
+  }
+
+  public void add(int value) {
+    if (head == null) {
+      head = new CircularNode(value);
+      tail = head;
+    } else {
+      tail.setNext(new CircularNode(value));
+      tail=tail.getNext();
+    }
+    tail.setNext(head);
+  }
+
+  // post: returns the current number of elements in the list
+  public int size() {
+    int count = 0;
+    CircularNode current = head;
+    while (current != tail) {
+      current = current.getNext();
+      count++;
+    }
+    return count+1;
+  }
+  
+  // post: returns comma-separated, bracketed version of list
+  public String toString() {
+    if (head == null) {
+      return "[]";
+    } else {
+      String result = "[" + head.getValue();
+      CircularNode current = head.getNext();
+      
+      while (current!=null && current != tail) {
+        result += ", " + current.getValue();
+        current = current.getNext();
+      }
+      if (head != tail) {
+        result += ", "+tail.getValue()+"]";
+      } else {
+        result += "]";
+      }
+      return result;
+    }
+  }
+}
+
+CircularNode
+public class CircularNode {
+  private Integer value;
+  private CircularNode next;
+
+  public CircularNode(int value) {
+    this.value=value;
+    next=null;
+  }
+
+  public CircularNode getNext() {
+    return next;
+  }
+
+  public Integer getValue() {
+    return value;
+  }
+
+  public void setNext(CircularNode next) {
+    this.next=next;
+  }
+
+  public void setValue(int value) {
+    this.value=value;
+  }
+}
+
+DblCircularLL
+import java.util.*;
+
+// Class LinkedIntList can be used to store a list of integers.
+public class DblCircularLL {
+  private DblLL_Node head; // first value in the list
+  private DblLL_Node tail; // last value in the list
+
+  // post: constructs an empty list
+  public DblCircularLL() {
+    head = null;
+    tail = null;
+  }
+
+  public void rotate(int n) {
+    if (Math.abs(n)!=size()) {
+      int times=n;
+      if (n<0) {
+        times+=size();
+      }
+      for (int i=1; i<=times; i++) {
+        tail=tail.getNext();
+        head=head.getNext();
+      }
+    }
+  }
+
+  public void add(int value) {
+    if (head == null) {
+      head = new DblLL_Node(value);
+      tail = head;
+      tail.setPrev(head);
+      head.setNext(tail);
+      head.setPrev(tail);
+    } else {
+      tail.setNext(new DblLL_Node(value));
+      tail=tail.getNext();
+    }
+    tail.setNext(head);
+  }
+
+  // post: returns the current number of elements in the list
+  public int size() {
+    int count = 0;
+    DblLL_Node current = head;
+    while (current != tail) {
+      current = current.getNext();
+      count++;
+    }
+    return count+1;
+  }
+  
+  // post: returns comma-separated, bracketed version of list
+  public String toString() {
+    if (head == null) {
+      return "[]";
+    } else {
+      String result = "[" + head.getValue();
+      DblLL_Node current = head.getNext();
+      
+      while (current!=null && current != tail) {
+        result += ", " + current.getValue();
+        current = current.getNext();
+      }
+      if (head != tail) {
+        result += ", "+tail.getValue()+"]";
+      } else {
+        result += "]";
+      }
+      
+      return result;
+    }
+  }
+}
+
+DblLL_Node
+public class DblLL_Node {
+  private Integer value;
+  private DblLL_Node prev, next;
+
+
+  public DblLL_Node(int value) {
+    this.value=value;
+    next=null;
+    prev=null;
+  }
+
+  public DblLL_Node getNext() {
+    return next;
+  }
+
+  public DblLL_Node getPrev() {
+    return prev;
+  }
+
+  public Integer getValue() {
+    return value;
+  }
+
+  public void setNext(DblLL_Node next) {
+    this.next=next;
+  }
+
+  public void setPrev(DblLL_Node prev) {
+    this.prev=prev;
+  }
+
+  public void setValue(int value) {
+    this.value=value;
+  }
+}
