@@ -1,0 +1,203 @@
+/**
+ *  Person_Comparable_Dates_CLIENT:
+ * 
+ *
+ *   This program will have you write a Person_Comparable_Dates class that creates an ArrayList called 'people' 
+ *   that holds the type 'Person_Comparable_Dates'.  A 'Person_Comparable_Dates' has a firstName and lastName as well as it hasA
+ *   Date class that holds the Person_Comparable_Datess birthdate.  
+ *   
+ *   Find the youngest and oldest Person_Comparable_Dates in the ArrayList 'people'. Create the 
+ *   'Person_Comparable_Dates' class and have it "implement" Comparable.  Thus, you have to write the compareTo()
+ *   method for Person_Comparable_Dates that compares each 'Person_Comparable_Dates' first by year, then month, then day.
+ *   
+OutPut:
+
+The list of people are: 
+[George Washington(2/22/1732), Paul Marques(3/27/1969), Kermit The Frog(9/27/1976), SquarePants SpongeBob(5/1/1999), Charlie Brown(10/3/1950), Rocky Horror(8/14/1975), Moses RedSea(4/3/-2345), Isaac Newton(1/4/1643), William Shakespeare(4/26/1564), Oprah Winfrey(1/29/1954)]
+
+The oldest Person_Comparable_Dates: Moses RedSea(4/3/-2345)
+
+The youngest Person_Comparable_Dates: SquarePants SpongeBob(5/1/1999)
+
+ */
+
+import java.util.*;
+public class Person_Comparable_Dates_CLIENT_SHELL
+{
+
+    public static void main()
+    {
+        ArrayList<Person_Comparable_Dates> people = new ArrayList<Person_Comparable_Dates>();
+        Person_Comparable_Dates theOldest, theYoungest;
+
+        people.add(new Person_Comparable_Dates("George","Washington", 2, 22, 1732));
+        people.add(new Person_Comparable_Dates("Paul","Marques",3,27,1969));
+        people.add(new Person_Comparable_Dates("Kermit","The Frog",9,27,1976));
+        people.add(new Person_Comparable_Dates("SquarePants","SpongeBob",5,1,1999));
+        people.add(new Person_Comparable_Dates("Charlie","Brown",10,3,1950));
+        people.add(new Person_Comparable_Dates("Rocky","Horror",8,14,1975));
+        people.add(new Person_Comparable_Dates("Moses","RedSea",4,3,-2345));
+        people.add(new Person_Comparable_Dates("Isaac","Newton",1,4,1643));
+        people.add(new Person_Comparable_Dates("William","Shakespeare",4,26,1564));
+        people.add(new Person_Comparable_Dates("Oprah","Winfrey",1,29,1954));
+
+        theOldest = findOldest(people);
+        theYoungest = findYoungest(people);
+
+        System.out.println("The list of people are: \n" + people + "\n");        
+        System.out.println(" The oldest Person_Comparable_Dates: " + theOldest + "\n");
+        System.out.println(" The youngest Person_Comparable_Dates: " + theYoungest);
+
+    } // main
+
+    public static Person_Comparable_Dates findOldest(ArrayList<Person_Comparable_Dates> Person_Comparable_DatesList)
+    {
+        Person_Comparable_Dates temp = Person_Comparable_DatesList.get(0);
+        for(int i = 0; i< Person_Comparable_DatesList.size()-1; i++){
+            
+            if(temp.compareTo(Person_Comparable_DatesList.get(i+1))>0){
+                temp = Person_Comparable_DatesList.get(i+1);
+            }
+            
+        }
+        return temp;
+    } // findOldest
+
+    public static Person_Comparable_Dates findYoungest(ArrayList<Person_Comparable_Dates> Person_Comparable_DatesList)
+    {
+        Person_Comparable_Dates temp = Person_Comparable_DatesList.get(0);
+        for(int i = 0; i< Person_Comparable_DatesList.size()-1; i++){
+            
+            if(temp.compareTo(Person_Comparable_DatesList.get(i+1))<0){
+                temp = Person_Comparable_DatesList.get(i+1);
+            }
+            
+        }
+        return temp;
+
+    } // findYoungest
+
+}
+
+========================================================================
+import java.util.*;
+/**
+ * Person_Comparable_Dates class does the following:
+ * 
+ *  (1) implements "Comparable" and thus, YOU write the "compareTo()" method.
+ *                    Rem:  public int compareTo(Object x)
+ *                    
+ *  (2) has the needed instance variables: myFirstName & myLastName of type String,
+ *                                         myBirthDate of type Date (Compositioned inside of Person
+ *                                                                   in other words, Person "hasA" Date)  
+ *  (3) has the needed constructors: default and regular that takes in 2 Strings for the name &
+ *                                   3 ints for the Date object.
+ *                                   
+ *  (4) has getMyBirthDate() that returns the Person's myBirthDate. 
+ *  
+ *  (5) has a toString() method
+ *  
+ */
+public class Person_Comparable_Dates implements Comparable<Person_Comparable_Dates> 
+{
+
+    private String fName;
+    private String lName;
+    private Date myBirthDate;
+    public Person_Comparable_Dates(){
+        this("","",0,0,0);
+    }
+
+    public  Person_Comparable_Dates(String f,String l, int m, int d, int y){
+        fName = f;
+        lName = l;
+        myBirthDate = new Date(m,d,y);
+    } 
+
+    public Date getMyBirthDate(){
+        return myBirthDate;
+    } 
+
+    public int compareTo(Person_Comparable_Dates s2){
+        if(myBirthDate.getYear()-s2.myBirthDate.getYear()==0){
+            if(myBirthDate.getMonth()-s2.myBirthDate.getMonth()==0){
+                return myBirthDate.getDay()-s2.myBirthDate.getDay();
+            } else{
+                return myBirthDate.getMonth()-s2.myBirthDate.getMonth();
+            }
+        }else{
+            return myBirthDate.getYear()-s2.myBirthDate.getYear();
+        }
+    }
+
+    public String toString(){
+        return fName + lName + myBirthDate.toString();
+    }
+}
+
+
+// ======================================================================
+
+/**
+ * Holds a date: month, day, year.
+ */
+public class Date
+{
+private int myMonth;
+private int myDay;
+private int myYear;
+
+    public Date()
+    {
+        setDate(0,0,0);
+    }
+    public Date(int m, int d, int y)
+    {
+        setDate(m,d,y);
+    }
+
+    public void setDate(int m, int d, int y)
+    {
+        setMonth(m);
+        setDay(d);
+        setYear(y);
+    }
+    
+    // Mutators
+    public void setMonth(int m)
+    {
+        myMonth = m;   
+    }
+    public void setDay(int d)
+    {
+        myDay = d;   
+    }
+    public void setYear(int y)
+    {
+        myYear = y;   
+    }
+    
+    // Accessor
+    public int getMonth()
+    {
+        return myMonth;   
+    }
+    public int getDay()
+    {
+         return myDay;   
+    }
+    public int getYear()
+    {
+        return myYear;
+    }    
+
+    public String toString()
+    {   
+        return ( myMonth + "/" + myDay +"/" + myYear);
+    }
+}
+
+
+// ==============================================
+
+
