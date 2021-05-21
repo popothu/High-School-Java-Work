@@ -1,2 +1,2 @@
 # High-School-Java-Work
-Most of the projects and exercises done over four years of Computer Science in MHS
+Projects done in both Fall and Spring semester of Bunker Hill's Computer Science Night Class
