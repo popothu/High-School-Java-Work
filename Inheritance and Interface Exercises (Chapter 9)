@@ -1,0 +1,244 @@
+//Ex 1 Marketer
+public class Marketer extends Employee{
+
+    public double getSalary(){
+        return super.getSalary()+10000;//Ex1
+    }
+    public void advertise() 
+     { 
+         System.out.println("Act now, while supplies last!"); 
+     } 
+}
+
+//Ex 2 Janitor
+public class Janitor extends Employee
+{
+    private int day;
+private int month;
+private int year;
+    public int getHours(){
+        return super.getHours()*2;
+    }
+    public double getSalary(){
+        return super.getSalary()-10000;
+    }
+    public int getVacationDays(){
+        return super.getVacationDays()/2;
+    }
+    public void clean(){
+        System.out.println("Workin' for the man.");
+    }
+    public Janitor(int d,int m,int y)
+    {
+        day = d;
+        month = m;
+        year = y;
+    }
+    public Janitor()
+    {
+        // empty
+    }
+}
+
+//Ex 3
+
+public class HarvardLawyer extends Lawyer
+
+{
+    
+    public double getSalary(){
+        return super.getSalary()*1.2;
+    }
+    public int getVacationDays(){
+        return getVacationDays()+3;
+    }
+    public String getVacationForm() 
+    { 
+        return "pinkpinkpinkpink"; 
+    } 
+}
+
+//Ex 4
+public class MonsterTruck extends Truck {
+public void m1() {
+System.out.println("monster 1");
+}
+public void m2() {
+super.m1();
+super.m2();
+}
+public String toString() {
+return "monster 1" + super.toString();
+}
+}
+
+//Ex 12 Time span add equals method
+public class TimeSpan implements Comparable<TimeSpan>
+ { 
+ private int totalMinutes; 
+ private int hours;
+ private int minutes;
+    // -------------- Constructors ------------------
+    public TimeSpan()
+    {
+        this(0,0);
+    }
+    // Constructs a time span with the given interval. 
+    // pre: hours >= 0 && minutes >= 0 
+    public TimeSpan(int hours, int minutes)
+    { 
+            totalMinutes = 0; 
+            add(hours, minutes); 
+            
+    } 
+ 
+
+    // Adds the given interval to this time span. 
+    // pre: hours >= 0 && minutes >= 0 
+    public void add(int hours, int minutes)
+    { 
+        if (hours < 0 || minutes < 0) { 
+            throw new IllegalArgumentException(); 
+        } 
+        totalMinutes += 60 * hours + minutes;
+        this.hours = hours;
+        this.minutes = minutes;
+    } 
+    
+    // >>>>>>>>>>>>>>>>> YOU FILL IN THESE METHODS  <<<<<<<<<<<<<<<<<<<<<
+    // Adds "span" amount of time to 'this' span object.
+    public void add(TimeSpan span)
+    {
+       totalMinutes += 60 * span.hours + span.minutes;
+       
+    }
+    // Subtracts "span" amount of time to 'this' span object.
+    public void subtract(TimeSpan span)
+    {
+       totalMinutes -= 60 * span.hours + span.minutes;
+        
+    }    
+    // Scales 'this' span by the given factor.  Basically, it multiplies 
+    //   totalMinutes by factor.
+    public void scale(int factor)
+    {
+        totalMinutes*=factor;
+    }
+    
+    // returns a String for this time span, such as "6h 15m" 
+    public String toString() 
+    { 
+        return (totalMinutes / 60) + "h " + (totalMinutes % 60) + "m"; 
+    }
+    public boolean equals(Object o){
+        if(o instanceof TimeSpan){
+        TimeSpan other = (TimeSpan) o;
+        return totalMinutes == other.totalMinutes;
+    } else{
+        return false;
+    }
+    }
+
+
+//Ex 14
+public boolean equals(Object o){
+     if( o instanceof Rectangle){
+         Rectangle other = (Rectangle) o;
+         return other.width == width && other.height == height;
+        }
+     return false;
+    }
+
+//Ex15
+public class Octagon implements Shape {
+ private double side;
+
+ // constructs a new circle with the given radius
+ public Octagon(double side) {
+ this.side = side;
+ }
+
+ // returns the area of this circle
+ public double getArea() {
+ return 2 * (1 + Math.sqrt(2)) * (side*side);
+ }
+
+ // returns the perimeter of this circle
+ public double getPerimeter() {
+ return 8 * side;
+ } 
+ public boolean equals(Object o){
+     if( o instanceof Octagon){
+         Octagon other = (Octagon) o;
+         return other.side == side;
+        }
+     return false;
+    }
+}
+//Ex16
+public class Hexagon implements Shape {
+ private double side;
+
+ // constructs a new circle with the given radius
+ public Hexagon(double side) {
+ this.side = side;
+ }
+
+ // returns the area of this circle
+ public double getArea() {
+ return ((3* Math.sqrt(3)) / 2) * (side*side);
+ }
+
+ // returns the perimeter of this circle
+ public double getPerimeter() {
+ return 6 * side;
+ } 
+ public boolean equals(Object o){
+     if( o instanceof Hexagon){
+         Hexagon other = (Hexagon) o;
+         return other.side == side;
+        }
+     return false;
+    }
+}
+
+//Ex17
+
+public interface Incrementable
+{
+    public int getValue();
+    public void increment();
+}
+
+public class SequentialIncrementer implements Incrementable
+{
+    private int value;
+    public SequentialIncrementer(){
+        value = 0;
+    }
+    public int getValue(){
+        return value;
+    }
+    public void increment(){
+        value++;
+    }
+}
+
+import java.util.*;
+public class RandomIncrementer implements Incrementable
+{
+    private int value;
+    
+    public void SequentialIncrementer(){
+        Random rand = new Random(); 
+        value = rand.nextInt(10);
+    }
+    public int getValue(){
+        return value;
+    }
+    public void increment(){
+        value++;
+    }
+}
+
+

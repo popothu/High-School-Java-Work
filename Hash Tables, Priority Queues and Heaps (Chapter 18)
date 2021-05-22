@@ -1,0 +1,272 @@
+(1) 
+//add all the elements from the other set into the current set
+public HashIntSet addAll(HashIntSet b){
+        for(int i = 0; i< b.elementData.length; i++){
+            if(elementData[i]!=null){
+                HashEntry current = b.elementData[i];
+                while(current != null){
+                    add(current.data);
+                    current = current.next;
+                }
+            }
+        }
+    }
+
+
+
+(2) 
+//makes sure the set has all the data
+public boolean containsAll(hashIntSet set) {
+  for (int i = 0; i< set.elementData.length; i++) {
+    hashEntry current = set.elementData[i];
+
+  while(current != null) {
+    if(!this.contains (current.data))
+    return false;
+
+ current = current.next;
+}
+}
+  return true;
+}
+
+(3) 
+public boolean equals(HashIntSet s)
+{
+   if(this.size != s.size) {return false;}
+
+   for(int i = 0;i<elementData.length;i++)
+   {
+       HashEntry node = this.elementData[i];
+       while(node != null)
+       {
+           if(!s.contains(node.data)){ return false;}
+           node = node.next;
+       }
+   }
+   return true;
+}
+
+
+
+(4) 
+//Exercise 4
+public void removeAll(HashIntSet set) {
+        for (int i = 0; i < set.elementData.length; i++) {
+            for (HashEntry cur = set.elementData[i]; 
+cur != null; cur = cur.next) {
+                remove(cur.data);
+            }
+        }
+    }
+
+
+
+(5) 
+
+//Exercise 5
+//accepts another hash set as a parameter and removes all elements from current set that are //not contained in the other set 
+        
+public void retainAll(HashIntSet_BJP that){
+            
+     for(int i = 0; i < this.elementData.length; i++){
+          HashEntry current = this.elementData[i]
+          while(current != null && current.data != 0){
+                   if(!that.contains(current.data)){
+                       this.remove(current.data); 
+                    }
+                   current = current.next;
+           }
+     }
+           
+} 
+
+
+(6) 
+//Exercises 6
+	public int[] toArray() 
+	{
+	    int[] result = new int[size]; //creates the array
+	    int index = 0; //used to keep track of where you are in the array
+
+	    for(int i = 0; i < elementData.length; i++) //to go through the hashset
+	    {
+        //takes element @ i and puts it in current which will then be put inside result in the 
+        //while loop below
+	        HashEntry current = elementData[i]; 
+
+	        while(current != null) 
+	        {
+		//puts the element from elementData into result and increments index 
+	            result[index] = current.data;
+	            index++;
+		
+		//makes sure to get all of the entries and get out of while loop 
+	            current = current.next;
+	        }
+	    }
+
+	    return result;
+	}
+
+(7) 
+
+public String toString()
+    {
+        String temp = "{";
+        for( int i=0; i<elementData.length; i++)
+        {
+            HashEntry current = elementData[i];
+            if(current!=null)
+            {
+                while (current!=null && current.getData!=0)
+                {
+                    temp+=current.getData()+", ";
+                
+                    current= current.getNext();
+                }
+            }
+        }
+        temp+="}";
+        return temp;
+    }
+
+(8) 
+public static void descending(int[] arr) {
+
+        Queue<Integer> pq = new PriorityQueue<Integer>();
+        for (int i = 0; i< arr.length;i++) {
+            System.out.print(arr[i]+", ");
+            pq.add(arr[i]);
+        }
+        System.out.println();
+        for (int i = 0; i< arr.length;i++) {
+            arr[i]=pq.remove();
+            System.out.print(arr[i]+", ");
+        }
+    }
+
+
+
+(9)
+Public int kthSmallest (Queue<Integer> pq, int k)
+{
+	if(k <= 0 || k > pq.size())
+{ 
+throw new IllegalArgumentException();
+}
+int kthMin = 0; 
+Queue<Integer> temp = new LinkedList<Integer>(); 
+for(int i = 0; i < k; i++)
+{
+kthMin = pq.remove();
+temp.add(kthMin);
+}
+while(!temp.isEmpty())
+{ 
+pq.add(temp.remove()); 
+} 
+return kthMin;
+}
+
+
+(10) 
+@Exercise(10)
+public static boolean isConsecutive(Queue<Integer> q) {
+    if (q.isEmpty())
+        return true;
+    final Queue<Integer> aux = new LinkedList<>();
+    boolean r = true;
+    Integer prev = q.remove();
+    aux.add(prev);
+    while (!q.isEmpty()) {
+        Integer next = q.remove();
+        if (r) {
+            if (next - 1 != prev)
+                r = false; // I could break here if q were a PriorityQueue
+            prev = next;
+        }
+        aux.add(next);
+    }
+    while (!aux.isEmpty())
+        q.add(aux.remove());
+    return r;
+}
+
+(11) 
+@Exercise(11)
+public static <T> void removeDuplicates(PriorityQueue<T> pq) {
+    final Queue<T> aux = new LinkedList<>();
+    T prev = pq.remove();
+    aux.add(prev);
+    while (!pq.isEmpty()) {
+        final T next = pq.remove();
+        if (!next.equals(prev)) {
+            prev = next;
+            aux.add(next);
+        }
+    }
+    while (!aux.isEmpty())
+        pq.add(aux.remove());
+}
+
+(12) 
+public static void stutter(PriorityQueue<Integer> pq)
+{ 
+Stack<Integer> temp = new Stack<Integer>(); 
+while(!pq.isEmpty())
+{ 
+int n = pq.remove(); 
+temp.push(n); 
+temp.push(n); 
+} 
+while(!temp.isEmpty())
+{ 
+pq.add(temp.pop()); 
+} 
+}
+
+
+
+(13) 
+public int[] toArray()
+   {
+       int[] array = new int[size];
+       for(int i = 0;i < size; i++)
+       {
+           array[i] = elementData[i+1];
+       }
+       return array;
+
+   }
+
+
+
+
+(14) 
+//HeapIntPriorityQueue toString() method
+public String toString() {
+        String a = "[";
+
+        for (int i=1; i<=size; i++) {
+            a += elementData[i];
+            if (i < size) {
+                a += ", ";
+            }
+        }
+        a += "]";
+        return a;
+    }
+
+
+
+(15) 
+
+//accepts another HeapIntPriorityQueue as a parameter and adds all elements from the other queue into the current queue, 
+//maintaining proper heap order such that the elements will still come out in ascending order when they are removed. 
+    //Does not modify the queue passed in as a parameter
+    
+    public void merge(HeapIntPriorityQueue other){
+        for(int i = 0; i < other.size(); i++){
+            this.add(other.heap[i + 1]);
+        }

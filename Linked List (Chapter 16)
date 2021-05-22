@@ -1,0 +1,336 @@
+Ex:1
+  //pre: 0 <= index < size()
+  public void set(int index, int value) {
+    if (index==0) {
+      if (size()<=1) {
+        front=new ListNode(value,null);
+      } else {
+        front=new ListNode(value,front.next);
+      }
+    } else if (index==size()-1) {
+      nodeAt(index-1).next=new ListNode(value,null);
+    } else {
+      nodeAt(index-1).next=new ListNode(value,nodeAt(index+1));
+    }
+  }
+
+  Ex:2
+  public int min() {
+    if (size()==0) {
+      throw new NoSuchElementException();
+    }
+    int min=front.data;
+    for (ListNode current=front.next; current!=null; current=current.next) {
+      if (current.data<min) {
+        min=current.data;
+      }
+    }
+    return min;
+  }
+
+  Ex:3
+  public boolean isSorted() {
+    if (size()==0 || size()==1) {
+      return true;
+    }
+    ListNode current=front;
+    while (current.next!=null) {
+      if (current.data>current.next.data) {
+        return false;
+      }
+      current=current.next;
+    }
+    return true;
+  }
+
+  Ex:4
+  public int lastIndexOf(int n) {
+    int index=-1, count=0;
+    for (ListNode current=front; current!=null; current=current.next) {
+      if (current.data==n) {
+        index=count;
+      }
+      count++;
+    }
+    return index;
+  }
+
+  Ex:5
+  //pre: list is sorted
+  public int countDuplicates() {
+    if (size()<=1) {
+      return 0;
+    }
+    int currentValue=front.data, duplicates=0;
+    ListNode current=front.next;
+    while (current!=null) {
+      if (current.data==currentValue) {
+        duplicates++;
+      } else {
+        currentValue=current.data;
+      }
+      current=current.next;
+    }
+    return duplicates;
+  }
+
+  Ex:6
+  public boolean hasTwoConsecutive() {
+    if (size()<=1) {
+      return false;
+    }
+    for (ListNode current=front; current.next!=null; current=current.next) {
+      if (current.next.data==(current.data+1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  eX:7
+  public int deleteBack() {
+    if (size()==0) {
+      throw new NoSuchElementException();
+    }
+    int value=nodeAt(size()-1).data;
+    if (size()==1) {
+      front=null;
+    } else {
+      nodeAt(size()-2).next=null;
+    }
+    return value;
+  }
+
+  Ex:8
+  public void switchPairs() {
+    if (front!=null) {
+      ListNode current=front, temp1=front.next, temp2=front;
+      while (current!=null && temp1!=null) {
+        if (current==front) {
+          front=temp1;
+        }
+        current.next=current.next.next;
+        temp1.next=current;
+        temp2=current;
+        current=current.next;
+        if (current!=null) {
+          temp1=current.next;
+          if (current.next!=null) {
+            temp2.next=temp1;
+          }
+        }
+      }
+    }
+  }
+  Ex:9
+  public void stutter() {
+    for (ListNode current=front; current!=null; current=current.next.next) {
+      current.next=new ListNode(current.data,current.next);
+    }
+  }
+
+  Ex:10
+  public void stretch(int n) {
+    if (n<=0) {
+      front=null;
+    }
+    ListNode current=front;
+    while (current!=null) {
+      for (int i=1; i<n; i++) {
+        current.next=new ListNode(current.data,current.next);
+        current=current.next;
+      }
+      current=current.next;
+    }
+  }
+
+ Ex:11
+  public void compress() {
+    ListNode current=front, temp1=front, temp2=front;
+    while (current!=null && current.next!=null) {
+      temp2=temp1;
+      temp1=new ListNode(current.data+current.next.data,current.next.next);
+      if (current==front) {
+        front=temp1;
+      } else {
+        temp2.next=temp1;
+      }
+      current=temp1.next;
+    }
+  }
+
+  Ex:12
+  public void split() {
+    if (front!=null) {
+      ListNode current=front, prev=front;
+      while (prev!=null && prev.next.data>=0) {
+        prev=prev.next;
+      }
+      current=prev.next;
+      while (current!=null) {
+        if (current.data<0) {
+          prev.next=current.next;
+          current.next=front;
+          front=current;
+          current=prev.next;
+        } else {
+          prev=prev.next;
+          current=current.next;
+        }
+      }
+    }
+  }
+  
+  
+  Ex:13
+  public void transferFrom(LinkedIntList list2) {
+    nodeAt(size()-1).next=list2.front;
+    list2.front=null;
+  }
+
+  Ex:14
+  public void removeAll(int n) {
+    ListNode prev=front, current=front;
+    while (current!=null) {
+      if (current.data==n) {
+        if (prev==front) {
+          front=front.next;
+          prev=front;
+        } else {
+          prev.next=current.next;
+        }   
+      } else {
+        prev=current;
+      }
+      current=current.next;
+    }
+  }
+
+  Ex:15
+  public boolean equals(LinkedIntList list2) {
+    if (size()!=list2.size()) {
+      return false;
+    }
+    if (front==null && list2==null) {
+      return true;
+    }
+    ListNode current1=front, current2=list2.nodeAt(0);
+    while (current1!=null) {
+      if (current1.data!=current2.data) {
+        return false;
+      }
+      current1=current1.next;
+      current2=current2.next;
+    }
+    return true;
+  }
+
+  Ex:16
+  public LinkedIntList removeEvens() {
+    LinkedIntList list2=new LinkedIntList();
+    ListNode c=front, p=front, c2=list2.front;
+    while (c!=null) {
+      if (c==front) {
+        list2.front=c;
+      } else {
+        c2.next=c;
+      }
+      c2=c;
+      c=c.next;
+      if (c2==front) {
+        front=front.next;
+      } else {
+        p.next=c;
+      }
+      p=c;
+      c2.next=null;
+      if (c!=null) {
+        c=c.next;
+      }
+    }
+    return list2;
+  }
+
+  Ex:17
+  //pre: 0<=start<=end<size
+  public void removeRange(int start, int end) {
+    if (start<0 || end<0) {
+      throw new IllegalArgumentException();
+    }
+    nodeAt(start-1).next=nodeAt(end+1);
+  }
+
+  Ex:18
+  public void doubleList() {
+    if (front!=null) {
+      ListNode end=front;
+      int size=1;
+      while (end.next!=null) {
+        end=end.next;
+        size++;
+      }
+      ListNode current=front;
+      for (int i=0; i<size; i++) {
+        end.next=new ListNode(current.data,null);
+        end=end.next;
+        current=current.next;
+      }
+    }
+  }
+
+  Ex:19
+  public void rotate() {
+    if (size()>1) {
+      ListNode temp=front;
+      nodeAt(size()-1).next=front;
+      front=front.next;
+      temp.next=null;
+    }
+  }
+
+  Ex:20
+  public void shift() {
+    if (size()>2) {
+      ListNode end=front;
+      while (end.next!=null) {
+        end=end.next;
+      }
+      ListNode originalEnd=end;
+      ListNode p=front, c=front.next.next;
+      do {
+        end.next=p.next;
+        end=end.next;
+        end.next=null;
+        p.next=c;
+        p=c;
+        c=c.next;
+        if (c!=originalEnd.next) {
+          c=c.next;
+        }
+      } while (c!=originalEnd.next);
+      if (size()%2==0) {
+        end.next=originalEnd;
+        p.next=c;
+        originalEnd.next=null;
+      }
+    }
+  }
+
+  Ex:21
+  public void reverse() {
+    if (size()>1) {
+      ListNode a=front, b=front.next, c=front.next.next;
+      while (b!=null) {
+        b.next=a;
+        if (a==front) {
+          a.next=null;
+        }
+        a=b;
+        b=c;
+        if (c!=null) {
+          c=c.next;
+        }
+      }
+      front=a;
+    }
+  }

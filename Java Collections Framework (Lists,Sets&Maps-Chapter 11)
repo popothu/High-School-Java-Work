@@ -1,0 +1,268 @@
+Ex:1
+public static List<Integer> Sieve(int max) {
+        List<Integer> primes = new LinkedList<Integer>();
+
+        List<Integer> numbers = new LinkedList<Integer>();
+        primes.add(2);
+        for (int i = 3; i <= max; i++) {
+
+            if(i%2!=0){ //Ex1
+                numbers.add(i);
+            }
+
+        }
+
+        while (!numbers.isEmpty()) {
+            // remove a prime number from the front of the list
+            int front = numbers.remove(0);
+            primes.add(front);
+            if(front*front==max){
+                primes.addAll(numbers);
+                numbers.clear();
+
+            }
+            // remove all multiples of this prime number
+            Iterator<Integer> itr = numbers.iterator();
+            while (itr.hasNext()) {
+                int current = itr.next();
+                if (current % front == 0) {
+                    itr.remove();
+                }
+
+            }
+        }
+
+        return primes;
+    }
+Ex:2
+public List<Integer> alternate(List<Integer> list1, List<Integer>   list2){
+        List<Integer> list = new LinkedList<Integer>();
+        int size1 = list1.size();
+        int size2 = list2.size();
+        int index1 = 0;
+        int index2 = 0;
+        boolean flag = true;
+        while(index1<size1|| index2<size2){
+            if(index1< size1 && flag){
+                list.add(list1.get(index1));
+            } else if(index2 < size2 && !flag){
+                list.add(list2.get(index2));
+                index2++;
+            }
+            flag = !flag;
+        }
+        return list;
+    }
+
+Ex:3
+public void removeInRange(List<Integer> list, int val, int start, int end) {
+        if(start > end)
+            return;
+
+        List<Integer> range = new LinkedList<Integer>();
+
+        for(int i = 0; i < start; i++)
+            range.add(list.get(i));
+
+        for(int i = start; i < end; i++) {
+            if(list.get(i) != val)
+                range.add(list.get(i));
+        }
+
+        for(int i = end; i < list.size(); i++)
+            range.add(list.get(i));
+
+        list.clear();
+        list.addAll(range);
+    }
+
+Ex:4
+public static void partition(List<Integer> list, int val){
+        List<Integer> na = new LinkedList<Integer>();
+        
+        
+        int size = list.size();
+        for(int i = 0; i< size; i++){
+            int current = list.get(i);
+            if(current<val){
+                list.remove(i);
+                list.add(0,current);
+            }
+        }
+        
+    }
+public static void sortAndRemoveDuplicates(List<Integer> list){
+        Set<Integer> tree = new TreeSet<Integer>();
+
+        for(int i = 0; i<list.size(); i++){
+            tree.add(list.get(i));
+        } 
+        System.out.println(tree);
+    }
+
+    public static int countUnique(List<Integer> list){
+        if(list.size()<1){
+            return 0;
+        }
+        Set<Integer> hash = new HashSet<Integer>();
+        for(int i = 0; i<list.size(); i++){
+            hash.add(list.get(i));
+        } 
+        return hash.size();
+    }
+
+    public static int countCommon(List<Integer> list1, List<Integer> list2){
+        Set<Integer> set1 = new HashSet<Integer>(list1);
+        Set<Integer> set2 = new HashSet<Integer>(list2);
+        int count = 0;
+        for(int n : set2){
+            if(set1.contains(n))
+                count++;
+        }
+        return count;
+    }
+
+    public static int maxLength(Set<String> set){
+        int maxLength = 0;
+        for(String n : set){
+            if(maxLength < n.length()){
+                maxLength = n.length();
+            }
+        }
+        return maxLength;
+    }
+
+    public boolean hasOdd(Set<Integer> set) {
+        for(int n : set) {
+            if(n % 2 == 1)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void removeEvenLength(Set<String> set) {
+        LinkedList<String> holder = new LinkedList<String>();
+
+        for(String str : set) {
+            if(str.length() % 2 == 1)
+                holder.add(str);
+        }
+
+        set.clear();
+        set.addAll(holder);
+    }
+    
+    public Set symmetricSetDifference(Set<Integer> set1, Set<Integer> set2){
+        Set<Integer> s1 = new HashSet<Integer>(set1);
+        s1.addAll(set2);
+        Set<Integer> temp = new HashSet<Integer>(set1);
+        temp.retainAll(set2);
+        s1.removeAll(temp);
+        return s1;
+    } 
+public static boolean MapExercise12_contains3(String words[]){
+        Map<String,Integer> mapWords= new HashMap<String,Integer>();
+        int count = 0;
+        System.out.println("\n");
+        for(String s: words){
+            if (!mapWords.containsKey(s)) {
+                mapWords.put(s, 1);
+            } else  {
+                mapWords.put(s, mapWords.get(s)+1);
+            }
+        }
+        System.out.println("mapWords.keySet()= " + mapWords.keySet());
+        System.out.println("mapWords.values()= " + mapWords.values());
+        return mapWords.containsValue(3);
+    }
+
+    public static boolean MapExercise16is1to1(Map<Integer, String> map){
+
+        return new HashSet<>(map.values()).size() < map.size();
+    }
+
+    public Map<String, Integer> reverse(Map<Integer, String> map) {
+        HashMap<String, Integer> reversed = new HashMap<String, Integer>();
+
+        for(int key : map.keySet()) {
+            String value = map.get(key);
+
+            if(!reversed.containsKey(value)) {
+                reversed.put(value, key);
+            }
+        }
+
+        return reversed;
+    }
+
+    public static boolean subMap (HashMap<Integer, String> map, HashMap<Integer, String> map2){
+        for(int num:map.keySet()){
+            String name = map.get(num);
+            if(!map2.containsKey(name)||!map2.containsValue(num)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static int countSimilar(Map<String, Integer> map, HashMap<String, Integer> map2){
+        int count = 0;
+        for(String word:map.keySet()){
+            int num = map.get(word);
+            if(map2.containsValue(word)||map2.containsKey(num)){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int rarest(Map<String, Integer> map) {
+        HashMap<Integer, Integer> hashmap = new HashMap<Integer, Integer>();
+        int rarest = Integer.MAX_VALUE;
+        int numRarest = Integer.MAX_VALUE;
+
+        for(String key : map.keySet()) {
+            int value = map.get(key);
+
+            if(hashmap.containsKey(value)) {
+                hashmap.put(value, hashmap.get(value) + 1);
+            } else {
+                hashmap.put(value, 1);
+            }
+        }
+
+        for(int key : hashmap.keySet()) {
+            int value = hashmap.get(key);
+
+            if(value < numRarest) {
+                rarest = key;
+                numRarest = value;
+            } else if(value == numRarest) {
+                rarest = key < rarest ? key : rarest;
+            }
+        }
+
+        return rarest;
+    }
+    public static Map<String,Integer> vocabulary(Scanner input){
+        Map <String, Integer> map = new HashMap<>();
+        int count1=1;
+        int count2=2;
+        while(input.hasNext()){
+            String word = input.next().toLowerCase();
+            if(map.containsKey(word)){
+                int count = map.get(word);
+                map.put(word,count+1);
+            }else{
+                map.put(word,1);
+            }
+                
+        }
+        return map;
+    }
+    public static void report(Map<String,Integer> map1,HashMap<String, Integer> map2){
+        int map1size = map1.size();
+        int map2size = map2.size();
+        System.out.print("map1size = " + map1size);
+        System.out.print("map1size = " + map2size);
+        System.out.print("overlap = " + countSimilar(map1,map2));
+    }

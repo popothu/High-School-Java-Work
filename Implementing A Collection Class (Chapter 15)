@@ -1,0 +1,245 @@
+Ex:1
+public int lastIndexOf(int index){
+         for (int i = size; i >= 0; i--) {
+         if (elementData[i] == index) {
+         return i;
+         }
+     }
+     return -1;
+     }
+Ex:2
+public int indexofSubList(ArrayIntList list){
+        int temp = list.size-1;
+        int index = 0;
+         for(int i = size-1; i>= 0;i--){
+            
+             if(this.elementData[i]==list.elementData[temp]){
+                index = i;
+                 if(temp == 0){
+                    return index;
+                } else
+                     temp--;
+                
+            }
+            
+        } 
+        
+        return -1;
+         
+     }
+Ex:3
+public ArrayIntList replaceAll(int number, int value){
+         for(int i = 0; i<size;i++){
+             if(elementData[i] == number){
+                 elementData[i] = value;
+             }
+         }
+         return this;
+     }
+Ex:4
+public ArrayIntList reverse(){
+         
+         for (int i = 0; i < this.size() / 2; i++) { 
+            Integer temp = this.get(i); 
+            this.replace(i, this.get(this.size() - i - 1)); 
+            this.replace(this.size() - i - 1, temp); 
+        }
+         return this;
+     }
+Ex:5
+public ArrayIntList runningTotal() {
+        ArrayIntList result = new ArrayIntList(size);
+        int runningSum = 0;
+    
+        for(int i = 0; i < size; i++) {
+            runningSum += elementData[i];
+            result.add(runningSum);
+        }
+    
+        return result;
+     }
+Ex:6
+public ArrayIntList fill(int value){
+         for(int i = 0; i<size; i++){
+             elementData[i] = value;
+            }
+            return this;
+     }
+Ex:7
+    public boolean isPairwiseSorted() {
+        if (size < 2)
+        return true;
+    
+        int test_size = size;
+        if (size % 2 == 1)
+        test_size = size -1;
+    
+        for (int i=0; i< test_size; i+=2) {
+        if (elementData[i] > elementData[i+1])
+            return false;
+        }
+        
+        return true;
+     }
+Ex:8
+public int count(int value){
+        int count = 0;
+        for(int i = 0; i<size; i++){
+                if(value == elementData[i]){
+                    count++;
+                }
+            }
+        return count;    
+        
+        }
+Ex:9
+public int maxCount(){
+         int count = 0;
+         int max = 1;
+         for(int i = 0 ; i<size; i++){
+             if(elementData[i] == elementData[i+1]){
+                 count++;
+                 if(count>=max){
+                    max += count;
+                    }
+                } else{
+                    count = 0;
+                }
+             
+            }
+         return max;
+        }
+Ex:10
+public int longestSortedSequence() {
+        if(size == 0)
+            return 0;
+        
+    
+        int max = 1;
+        int count = 1;
+    
+        for(int i = 1; i < size; i++) {
+            if(elementData[i - 1] <= elementData[i]) {
+                count++;
+            } else {
+                if(count > max) {
+                    max = count;
+                }
+                count = 1;
+            }
+        }
+    
+        return Math.max(max, count);
+    }
+Ex:11
+public int returnLast(){
+        if(size<=0){
+            throw new NoSuchElementException();
+        }
+        int value = elementData[size-1];
+        remove(size-1);
+        return value;
+    }
+Ex:12
+public void removeFront(int n) {
+        for(int i = n; i < size; i++) {
+            elementData[i - n] = elementData[i];
+        }
+    
+        size -= n;
+    }
+Ex:13
+public void removeAll(int n) {
+        int i = 0;
+    
+        while(i < size) {
+            if(elementData[i] == n) {
+                remove(i);
+            } else {
+                i++;
+            }
+        }
+    }
+Ex:14
+public void printInversions() {
+        for(int i = 0; i <= size - 2; i++) {
+            for(int j = i+1; j < size; j++) {
+                if(elementData[i] > elementData[j])
+                    System.out.println("(" + elementData[i] + ", " +
+                        elementData[j] + ")");
+            }
+        }
+    }
+Ex:15
+public void mirror(){
+        size*=2;
+        for(int i = size-1; i>=0; i--){
+            add(elementData[i]);
+        }
+    
+    }
+Ex:16
+public void stutter(){
+        for(int i = size - 1; i >= 0; i--) {
+            for(int j = 0; j < 2; j++) {
+                elementData[2 * i + j] = elementData[i];
+            }
+        }
+    
+        size*=2;
+    }
+Ex:17
+public void stretch(int n){
+        for(int i = size - 1; i >= 0; i--) {
+            for(int j = 0; j < n; j++) {
+                elementData[n * i + j] = elementData[i];
+            }
+        }
+    
+        size*=n;
+    }
+Ex:18
+public void doubleList(){
+        size*=2;
+        for(int i = 0; i<=size; i++){
+            add(elementData[i]);
+        }
+        
+    }
+Ex:19
+public void compress(){
+        int temp = elementData[size-1];
+        for(int i = 0; i< size; i++){
+            elementData[i] = elementData[i]+elementData[i+1];
+            remove(i+1);
+        }
+        if(size%2!=0){
+            add(temp);
+        }
+    }
+Ex:20
+public ArrayIntList rotate(){
+        
+        
+        int temp = get(0);
+        
+        for (int i = 0; i < size-1; i++) { 
+            elementData[i] = elementData[i+1];
+        }
+        elementData[size] = temp;
+        return this;
+    }
+Ex:21
+public ArrayIntList switchPairs(){
+        
+        
+        
+        
+        for (int i = 0; i < size-1; i+=2) { 
+            int temp = elementData[i];
+            elementData[i] = elementData[i+1];
+            elementData[i+1] = temp;
+        }
+        
+        return this;
+    }
