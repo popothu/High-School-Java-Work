@@ -1,0 +1,135 @@
+import java.util.*;
+public class PART2 {
+    //algorithm: left, right, up, down
+    public static void main(String[] args) {
+        char[][] M = {
+            {'A','B','A','A'},
+            {'B','C','D','A'},
+            {'A','B','C','B'},
+            {'E','X','D','Z'},
+            {'A','B','A','A'},
+            {'B','C','C','A'},
+            {'E','D','C','B'},
+            {'E','X','D','Z'}
+            };
+        findStringInMatrix("AABCDE",M);
+    }
+    public static void findStringInMatrix(String s, char[][] M) {
+        boolean found=false;
+        List<String> coordinates=new LinkedList<>();
+        int curR=0, curC=0;
+        while (curR < M.length && !found) {
+            coordinates = findStringInMatrix(s,M,curR,curC,coordinates);
+            if (coordinates.size()==s.length()) {
+                found=true;
+            } else {
+                curC++;
+                if (curC == M[0].length) {
+                    curC=0;
+                    curR++;
+                }
+            }
+        }
+        System.out.print("answer = ");
+        if (found) {
+            System.out.print("YES\norigin = "+coordinates.get(0)+"\ncoordinates: ");
+            System.out.println(coordinates);
+        } else {
+            System.out.println("NO");
+        }
+    }
+    private static List<String> findStringInMatrix(String s, char[][] M,
+    int curR, int curC, List<String> coordinates) {
+        if (curC < 0 || curC == M[0].length ||
+            curR < 0 || curR == M.length) {
+            return coordinates;
+        } else if (M[curR][curC] == s.charAt(0)) {
+            coordinates.add("("+curR+","+curC+")");
+            int originalCoordinatesSize = coordinates.size();
+            if (s.length() == 1 ||
+            findStringInMatrix(s.substring(1),M,curR,curC-1,coordinates).size()>originalCoordinatesSize
+            || findStringInMatrix(s.substring(1),M,curR,curC+1,coordinates).size()>originalCoordinatesSize
+            || findStringInMatrix(s.substring(1),M,curR-1,curC,coordinates).size()>originalCoordinatesSize
+            || findStringInMatrix(s.substring(1),M,curR+1,curC,coordinates).size()>originalCoordinatesSize
+            ) {
+                return coordinates;
+            }
+            coordinates.remove(coordinates.size()-1);
+            return coordinates;
+        } else {
+            return coordinates;
+        }
+    }
+}
+
+import java.util.*;
+
+public class Traverse
+
+{
+    private static int tick = 0;
+    private static String b = "";
+    public static void main(){
+        String s = "AABCDE";
+        char M[][] = {{'A','B','A','A'},                            
+                {'B','C','D','A'},                   
+                {'A','B','C','D'},                                  
+                {'E','E','A','B'},
+            }; 
+
+        String b = "";
+        ArrayList<String> array = new ArrayList<String>();
+        for(int i =0; i<M.length; i++){   
+
+            for(int j = 0; j<M[0].length;j++){
+                check(i,j,s,array,M);
+
+            }
+
+        }
+        if(tick ==6){ 
+            printanswer(array,s);
+        } else{
+            System.out.println("NO");
+        }
+        tick = 0;
+
+    } 
+
+    public static void check (int i, int j, String s, ArrayList<String> array, char M[][]){
+        if(tick!=6){
+            if(M[i][j] == s.charAt(tick)){
+                System.out.println(M[i][j]);
+                b+=s.charAt(tick);
+                array.add("("+i+","+j+")");
+                tick++; 
+
+            } else{
+                System.out.println(M[i][j]);
+                b = "";
+                array.clear();
+                tick = 0;
+
+                if(M[i][j] == s.charAt(tick)){
+                    b+=s.charAt(tick);
+                    array.add("("+i+","+j+")");
+                    tick++; 
+                }
+            }
+        }else{
+
+            return;
+        }
+    }
+
+    public static void printanswer(ArrayList<String> array,String s){
+        System.out.println("answer = yes");
+        System.out.println("origin" + array.get(0));
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0; i< array.size(); i++){
+            System.out.print(array.get(i));
+        }
+        
+
+    }
+}

@@ -1,0 +1,160 @@
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    ArrayList<PersonNode> list = new ArrayList<PersonNode>();
+    list.add(new PersonNode("Marques", "Paul", "The-Great", "123-45-678"));
+    list.add(new PersonNode("Kent", "Clark", "Kryptonite", "932-00-918"));
+    list.add(new PersonNode("Luthor", "Lex", "King-of-Evil", "632-95-174"));
+    list.add(new PersonNode("Lane", "Lois", "Lipstick", "390-29-4945"));
+    list.add(new PersonNode("Bunny", "Bugs", "Hoppy", "383-92-484"));
+    list.add(new PersonNode("Duck", "Daffy", "Dippy", "395-10-573"));
+    list.add(new PersonNode("Flintstone", "Fred", "RockHead", "592-96-285"));
+    list.add(new PersonNode("Ruble", "Barney", "ShortStone", "116-30-590"));
+    list.add(new PersonNode("Flintstone", "Wilma", "Mary", "883-95-499"));
+    list.add(new PersonNode("Ruble", "Betty", "Boop", "501-57-295"));
+    list.add(new PersonNode("Man", "Pac", "Hungry", "492-95-100"));
+    list.add(new PersonNode("Invader", "Space", "1980sVideoGame", "385-10-395"));
+    list.add(new PersonNode("Bert", "Q", "-", "385-19-305"));
+
+    Tree nameTreeSort=new Tree(list, new nameComparator());
+    Tree idNumTreeSort=new Tree(list, new idComparator());
+
+    System.out.println("nameTreeSort inOrder: ");
+    nameTreeSort.printInorder();
+    System.out.println();
+    System.out.println("idNumTreeSort inOrder: ");
+    idNumTreeSort.printInorder();
+  }
+}
+import java.util.*;
+public class idComparator implements Comparator<PersonNode>
+{
+  public int compare(PersonNode n1, PersonNode n2) {
+    return n1.getIdNum().compareTo(n2.getIdNum());
+  }
+}
+import java.util.*;
+public class nameComparator implements Comparator<PersonNode>
+{
+	public int compare(PersonNode n1, PersonNode n2) {
+    if (n1.getLastName().compareTo(n2.getLastName())!=0) {
+      return n1.getLastName().compareTo(n2.getLastName());
+    } else if (n1.getFirstName().compareTo(n2.getFirstName())!=0) {
+      return n1.getFirstName().compareTo(n2.getFirstName());
+    } else {
+      return n1.getMiddleName().compareTo(n2.getMiddleName());
+    }
+  }
+}
+public class PersonNode {
+  private String lastName;
+  private String firstName;
+  private String middleName;
+  private String idNum;
+
+  public PersonNode(String lastName, String firstName, String middleName, String idNum) {
+    this.lastName=lastName;
+    this.firstName=firstName;
+    this.middleName=middleName;
+    this.idNum=idNum;
+  }
+  public PersonNode() {
+    this("","","","");
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+  public String getFirstName() {
+    return firstName;
+  }
+  public String getMiddleName() {
+    return middleName;
+  }
+  public String getIdNum() {
+    return idNum;
+  }
+
+  public String toString() {
+    return firstName+" "+middleName+" "+lastName+" ID:"+idNum;
+  }
+}
+public class TreeNode {
+  private TreeNode left, right;
+  private PersonNode value;
+
+  public TreeNode(PersonNode value, TreeNode left, TreeNode right) {
+    this.value=value;
+    this.left=left;
+    this.right=right;
+  }
+
+  public TreeNode(PersonNode value) {
+    this(value,null,null);
+  }
+
+  public TreeNode() {
+    this(null,null,null);
+  }
+
+  public PersonNode getValue() {
+    return value;
+  }
+  public TreeNode getLeft() {
+    return left;
+  }
+  public TreeNode getRight() {
+    return right;
+  }
+  public void setLeft(TreeNode left) {
+    this.left=left;
+  }
+  public void setRight(TreeNode right) {
+    this.right=right;
+  }
+}
+ import java.util.*;
+ public class Tree
+ {
+ private TreeNode overallRoot;
+
+  public Tree(TreeNode n) {
+    overallRoot=n;
+  }
+
+  public Tree(ArrayList<PersonNode> a, Comparator<PersonNode> c) {
+    for (int i=0; i<a.size(); i++) {
+      add(a.get(i), c);
+    }
+  }
+  public void add(PersonNode n, Comparator<PersonNode> c) {
+    overallRoot = add(overallRoot, n, c);
+  }
+
+  // post: value added to tree so as to preserve binary search tree
+  private TreeNode add(TreeNode root, PersonNode n, Comparator<PersonNode> c) {
+    if (root == null) {
+      root = new TreeNode(n);
+    } else if (c.compare(root.getValue(),n) >= 0) {
+      root.setLeft(add(root.getLeft(), n, c));
+    } else {
+      root.setRight(add(root.getRight(), n, c));
+    }
+    return root;
+  }
+
+    // post: prints the tree contents using an inorder traversal
+    public void printInorder() {
+        System.out.print("inorder:");
+        printInorder(overallRoot);
+        System.out.println();
+    }
+    // post: prints in inorder the tree with given root
+    private void printInorder(TreeNode root) {
+        if (root != null) {
+            printInorder(root.getLeft());
+            System.out.println(" " + root.getValue());
+            printInorder(root.getRight());
+        }
+    }
+}

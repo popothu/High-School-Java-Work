@@ -1,0 +1,133 @@
+import java.util.*;
+
+public class Chapter5_ProgProject_3
+{
+    public static void main()
+    {
+    Student students[] = { new Student("Smith","Kelly","438975",98.6,'A'),
+                           new Student("Johnson","Gus","210498",72.4,'C'),
+                           new Student("Reges","Stu","098736",88.2,'B'),
+                           new Student("Smith","Marty","346282",84.1,'B'),
+                           new Student("Reges","Abe","298575",78.3, 'C')
+                        };
+         
+            System.out.println("Programming Project Chapter 5 #3:");                        
+            System.out.println("================================= \n");   
+            System.out.println("Student: LastName FirstName ID AVG Grade \n");
+            
+            System.out.println("Students list originally: ");
+            System.out.print(" students list: "); 
+            System.out.print("[");
+            for (int i=0; i<students.length-1; i++) 
+                System.out.print(students[i] + ", ");
+            System.out.println(students[students.length-1]+"]");    
+            System.out.println();
+            
+            System.out.println(" Students list by LastName: ");
+            Arrays.sort(students,new StudentLastNameComparator());
+            System.out.print(" students list: "); 
+            System.out.print("[");
+            for (int i=0; i<students.length-1; i++) 
+                System.out.print(students[i] + ", ");
+            System.out.println(students[students.length-1]+"]");    
+            System.out.println();  
+
+            System.out.println(" Students list by idNum: ");
+            Arrays.sort(students,new StudentIDNumComparator());
+            System.out.print(" students list: "); 
+            System.out.print("[");
+            for (int i=0; i<students.length-1; i++) 
+                System.out.print(students[i] + ", ");
+            System.out.println(students[students.length-1]+"]");    
+            System.out.println();
+            
+            System.out.println(" Students list by Average: ");
+            Arrays.sort(students,new StudentAverageComparator());
+            System.out.print(" students list: "); 
+            System.out.print("[");
+            for (int i=0; i<students.length-1; i++) 
+                System.out.print(students[i] + ", ");
+            System.out.println(students[students.length-1]+"]");    
+            System.out.println();
+            
+            System.out.println(" Students list by LetterGrade: ");
+            Arrays.sort(students,new StudentLetterGradeComparator());
+            System.out.print(" students list: "); 
+            System.out.print("[");
+            for (int i=0; i<students.length-1; i++) 
+                System.out.print(students[i] + ", ");
+            System.out.println(students[students.length-1]+"]");    
+            System.out.println();            
+     
+    } // main
+}  // Chapter5_ProgProject_3
+public class Student
+{
+public String lastName, firstName;
+public String idNum;
+public Double average;
+public char letterGrade;
+
+    public Student()
+    {
+        this("","","",0.0,' ');
+    }
+    public Student(String lastName, String firstName, String idNum,
+                      double average, char letterGrade)
+    {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.idNum = idNum;
+        this.average = average;
+        this.letterGrade = letterGrade;
+    }
+    
+    public String toString()
+    {
+        return lastName + " " + firstName + " " + idNum  + " " +
+               average + " " + letterGrade;
+    }
+    
+    
+}  // Student  
+
+import java.util.*;
+public class StudentLastNameComparator implements Comparator<Student>
+{
+    public int compare(Student s1, Student s2) {
+        return s1.lastName.compareTo(s2.lastName);
+    }
+}
+
+import java.util.*;
+public class StudentAverageComparator implements Comparator<Student>
+{
+    public int compare(Student s1, Student s2) {
+        return (int) (s1.average*10) - (int) (s2.average * 10) ;
+    }
+}
+
+import java.util.*;
+public class StudentFirstNameComparator implements Comparator<Student>
+{
+    public int compare(Student s1, Student s2) {
+        return s1.firstName.compareTo(s2.firstName);
+    }
+}
+
+import java.util.*;
+public class StudentIDNumComparator implements Comparator<Student>
+{
+   public int compare(Student s1, Student s2) {
+        return s1.idNum.compareTo(s2.idNum);
+   }
+}
+
+import java.util.*;
+public class StudentLetterGradeComparator implements Comparator<Student>
+{
+    public int compare(Student s1, Student s2) {
+        return s1.letterGrade - s2.letterGrade;
+    }
+}
+

@@ -1,0 +1,92 @@
+import java.util.*;
+
+class Main
+{
+static int a[] = {50,40,60,30,70,105,20,80,35,5,10,90,100,110,65};
+static TreeNode root= null;
+
+    public static void main(String[] args)
+    {    
+        System.out.println("\t UnBalanced: ");
+        makeTree();       
+        printTreeSideWays(root, 1);
+        System.out.println("\n\n\n");
+        
+        Arrays.sort(a);
+        
+        System.out.println("\t Balanced: ");        
+        root = makeBalancedTree(0,a.length-1);
+        printTreeSideWays(root, 1);
+        
+    }
+    public static void makeTree()
+    {
+        for (int i=0; i<a.length; i++)
+        {
+            root = addNode(root,a[i]);
+        }
+       }
+    public static TreeNode addNode(TreeNode root,int k)   
+    {
+        if (root==null)
+            root = new TreeNode(k);
+
+        else if (k<root.data)
+            root.left = addNode(root.left,k);
+        else
+            root.right = addNode(root.right,k);            
+       return root;
+    }
+
+
+    public static TreeNode makeBalancedTree(int low,int high)
+    {
+      TreeNode r;
+      if (low > high) {
+        return null;
+      } else if (low == high) {
+        r=new TreeNode(a[low]);
+      } else {
+        int midpoint=((high-low)/2)+low;
+        r=new TreeNode(a[midpoint]);
+        r.left=makeBalancedTree(low, midpoint-1);
+        r.right=makeBalancedTree(midpoint+1, high);
+      }
+      return r;
+    }
+    
+     // postCondition: prints in reversed preorder the tree with given
+     //       root, indenting each line to the given level
+     private static void printTreeSideWays(TreeNode root, int level) 
+     {
+         
+         if (root != null) {
+             printTreeSideWays(root.right, level + 1);
+         for (int i = 0; i < level; i++)
+         {
+             System.out.print("  ");
+         }
+         System.out.println(root.data);
+         printTreeSideWays(root.left, level + 1);
+         }
+ 
+     }    
+
+}  // MakeTreeBalanced
+public class TreeNode {
+  public int data;
+  public TreeNode left;
+  public TreeNode right;
+
+  // constructs a leaf node with given data
+  public TreeNode(int data) {
+    this(data, null, null);
+  }
+
+  // constructs a branch node with given data, left subtree,
+  // right subtree
+  public TreeNode(int data, TreeNode left, TreeNode right) {
+    this.data = data;
+    this.left = left;
+    this.right = right;
+  }

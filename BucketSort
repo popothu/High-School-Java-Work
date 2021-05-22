@@ -1,0 +1,61 @@
+import java.util.*;
+public class BucketSort
+{
+    public static void main(String[] args) {
+        int[] a= {105,87142,95,12987120,7194,9};
+        System.out.print("Old array: ");
+        printArray(a);
+        bucketSort(a);
+        System.out.print("New array: ");
+        printArray(a);
+    }
+    public static void printArray(int[] a) {
+        System.out.print("["+a[0]);
+        for (int i=1; i<a.length; i++) {
+            System.out.print(", "+a[i]);
+        }
+        System.out.println("]");
+    }
+    
+    public static void bucketSort(int[] a) {
+        int[][] buckets=new int[10][a.length];
+        int b=secondHighestNumDigits(a);
+        for (int i=1; i<=b+1; i++) {
+            for (int j=0; j<a.length; j++) {
+                int col=0, row=(a[j]%(int)Math.pow(10,i))/(int)Math.pow(10,i-1);
+                while (buckets[row][col]!=0) {
+                    col++;
+                }
+                buckets[row][col]=a[j];
+            }
+            gather(a,buckets);
+        }
+    }
+    
+    public static int secondHighestNumDigits(int[] a) {
+        int max=a[0], secondMax=a[0];
+        for (int i=0; i<a.length; i++) {
+            if (a[i]>secondMax && a[i]<max) {
+                secondMax=a[i];
+            } else if (a[i]>max) {
+                int temp=max;
+                max=a[i];
+                secondMax=temp;
+            }
+        }
+        return ((int) Math.floor(Math.log10(secondMax))) +1;
+    }
+    
+    public static void gather(int[] a, int[][] buckets) {
+        int place=0;
+        for (int i=0; i<buckets.length; i++) {
+            for (int j=0; j<buckets[i].length; j++) {
+                if (buckets[i][j]!=0) {
+                    a[place]=buckets[i][j];
+                    buckets[i][j]=0;
+                    place++;
+                }
+            }
+        }
+    }
+}
