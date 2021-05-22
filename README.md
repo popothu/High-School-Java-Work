@@ -1,2 +1,2 @@
 # High-School-Java-Work
-Most of the projects and exercises done over four years of Computer Science in MHS
+Exercises completed from Intro to Java Programming by Daniel Liang 10th Edition

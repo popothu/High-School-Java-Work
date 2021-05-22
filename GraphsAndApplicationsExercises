@@ -1,0 +1,166 @@
+#1
+// STEP 2: Create the graph, tree, etc
+        Graph<Integer> graph=new UnweightedGraph(edgeList,numVerticesInList);
+        AbstractGraph<Integer>.Tree dfs=graph.dfs(0);
+            
+        // STEP 3: Print Results
+        System.out.println("Data["+i+"]");
+        graph.printEdges();
+        int numVerticesInTree=dfs.getNumberOfVerticesFound();
+        System.out.println("numVerticesInList = "+numVerticesInList+"\nnumVerticesInTree = "+numVerticesInTree);
+        if (numVerticesInList == numVerticesInTree) {
+          System.out.println("Graph IS Connected!! numVerticesInTree == numVerticesInList");
+        } else {
+          System.out.println("Graph is NOT Connected!! numVerticesInTree != numVerticesInList");
+        }
+        System.out.println("\n\n\n\n");
+
+#4
+In Main:
+MyGraph<Integer> graph = new MyGraph(edges, numVerticesInList);
+      System.out.println("\n graph.printEdges(): ");
+      graph.printEdges();
+      System.out.println("graph.getConnectedComponents() = "+graph.getConnectedComponents());
+
+In MyGraph:
+public List<List<Integer>> getConnectedComponents() {
+      // Create a list of lists of connected Edges.
+      ArrayList<List<Integer>> connectedComponents = new ArrayList<List<Integer>>();
+      // 1. Create a set of Integer vertices
+      Set<Integer> vertexSet = new HashSet<Integer>((ArrayList) getVertices());
+
+      // 2. Go thru the entire set picking out vertices in the same tree
+      int index = 1;
+      while (!vertexSet.isEmpty()) {
+        // 3. Pick a vertex.
+        Iterator<Integer> itr = vertexSet.iterator();
+        int startVertex=itr.next();
+        // 4. Create a tree via this startVertex
+        AbstractGraph.Tree dfs=dfs(startVertex);
+        // 5. Get list of Vertices.
+        List<Integer> verticesList=dfs.getSearchOrder();
+        // 6. Put verticesList into connectedComponents
+        connectedComponents.add(verticesList);
+        // 7. Take verticesList out of edgeSet
+        vertexSet.removeAll(verticesList);
+      } // while
+    return connectedComponents;
+    }
+#5
+In Main:
+
+
+// We will get the paths (0,5) in Graph 1, and (0,4) in Graph 2.
+     int uArray[] = {0,0};
+     int vArray[] = {5,4};
+     for (int i=0; i<data.length-1; i++)
+     {
+     List<AbstractGraph.Edge> edgeList = new ArrayList<>();
+        Scanner scan = new Scanner(data[i]); 
+        int numVerticesInList = Integer.parseInt(scan.nextLine());
+        while (scan.hasNextLine()) {
+            String line = scan.nextLine();
+            String[] splitLine = line.split(" ");
+            int u = Integer.parseInt(splitLine[0]);   
+            for (int j = 1; j < splitLine.length; j++) {
+                int v = Integer.parseInt(splitLine[j]);
+                edgeList.add(new AbstractGraph.Edge(u, v));
+            }            
+        }// while
+                
+        // STEP 2: Create the graph, tree, etc        
+        AbstractGraph<Integer> graph= new UnweightedGraph<Integer>(edgeList,numVerticesInList);
+        
+        // Step 3: Get the path from u to v, null if none exists.
+        List<Integer> resultPath = graph.getPath(uArray[i],vArray[i]);
+
+        // & Step 4: Print Results
+        if (resultPath==null) {
+          System.out.println("No path exists");
+        } else {
+          Collections.reverse(resultPath);
+          System.out.println("Path = "+resultPath);
+        }
+            
+    }// for
+
+In AbstractGraph:
+
+
+//28.5 getPath
+ public List<Integer> getPath(int u, int v) {
+   AbstractGraph.Tree bfs=bfs(u);
+   if (!bfs.getSearchOrder().contains(v)) {
+     return null;
+   }
+   return bfs.getPath(v);
+ }
+
+#8
+//--------------------isBipartite---------------------
+     HashSet<Integer> setA = new HashSet<>(), setB = new HashSet<>();
+   boolean  isBipartite=true;
+    //Create a set of all Integer vertices and queue
+    HashSet<Integer> vertexSet=new HashSet<>(graph.getVertices());
+    Queue<Integer> q= new LinkedList<>();
+
+    int startVertex=graph.getVertices().get(0);
+    setA.add(startVertex);
+    q.add(startVertex);
+    HashSet<Integer> currentSet;
+
+    //Go thru the entire set taking a vertice and putting it into either setA,
+    // setB or both
+    while (!vertexSet.isEmpty()) {
+      //Pick a vertex
+      int currentVertex=q.remove();
+      //Create a list of currentVertex's neighbors
+      List<Integer> currentNeighbors=graph.getNeighbors(currentVertex);
+
+      //which is the currentSet?
+      if (setA.contains(currentVertex)) {
+        currentSet=setB;
+      } else {
+        currentSet=setA;
+      }
+
+      currentSet.addAll(currentNeighbors); //put in set
+      for (int a : currentNeighbors) { //put in queue if still in vertexSet but not in queue
+        if (vertexSet.contains(a) && (!q.contains(a))) {
+          q.add(a);
+        }
+      }
+      //Get a count of neighbors' vertices in setA and setB
+      HashSet<Integer> union1=new HashSet<>(setA), union2=new HashSet<>(setB);
+      union1.retainAll(currentNeighbors);
+      union2.retainAll(currentNeighbors);
+      int count=union1.size()+union2.size();
+
+      //Check to see if the graph is Bipartite via the counts
+      if (count > currentNeighbors.size()) {
+        isBipartite=false;
+      }
+      //remove currentVertex from vertexSet
+      vertexSet.remove(currentVertex);
+    }
+
+    // ========================= OUTPUT ========================= 
+           System.out.println("setA: [");
+           for (Iterator itr=setA.iterator(); itr.hasNext(); )
+           {
+               System.out.print(itr.next()+", ");
+           }
+           System.out.println("]");
+           System.out.println("setB: [");
+           for (Iterator itr=setB.iterator(); itr.hasNext(); )
+           {
+               System.out.print(itr.next()+", ");
+           }
+           System.out.println("]");       
+           
+           if (isBipartite) {
+               System.out.println("\n\n The graph IS Bipartite!!!");
+            } else {
+               System.out.println("\n\n The graph is NOT Bipartite!!!");            
+            }
+           System.out.println("\n\n ------------------- All Done!! -------------------");
